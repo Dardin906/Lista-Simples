@@ -1,13 +1,16 @@
 package com.example.listasimples
 
-import android.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import com.google.android.material.floatingactionbutton. FloatingActionButton
 
 
 class MainActivity : AppCompatActivity() {
@@ -16,17 +19,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val etnovatarefa = findViewById<EditText>(R.id.etnovatarefa)
         val btadd = findViewById<Button>(R.id.btadd)
-        val lvtarefas = findViewById<ListView>(R.id.lvtarefas)
+        val tvTitulo = findViewById<TextView>(R.id.tvtitulo)
+        val lvTarefas = findViewById<ListView>(R.id.lvtarefas)
 
-        //aqui criamos a lista de Strings, inicialmente vazia
+        val fab = findViewById<FloatingActionButton>(R.id.fab)
+        fab.setOnClickListener {
+            tvTitulo.isVisible = false
+            etnovatarefa.isVisible = true
+            btadd.isVisible = true
+        }
+
         val listaTarefas: ArrayList<String> = ArrayList()
-
-        //para trabalhar com listas, precisamos de um adapter
-        //um componente adicional do android para layout de listas
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listaTarefas)
-
-        //aqui o adapter do listview recebe o adapter que criamos
-        lvtarefas.adapter = adapter
+        lvTarefas.adapter = adapter
 
         btadd.setOnClickListener {
             if (etnovatarefa.text.isNullOrEmpty()) {
@@ -39,7 +44,7 @@ class MainActivity : AppCompatActivity() {
                 etnovatarefa.setText("")
             }
         }
-        lvtarefas.setOnItemClickListener { _, _, position, _ ->
+        lvTarefas.setOnItemLongClickListener { _, _, position, _ ->
             //aqui montamos a caixa de diálogo
             val alerta = AlertDialog.Builder(this)
             alerta.setTitle("Atenção!")
@@ -58,4 +63,8 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
+
+
+
+
 }
